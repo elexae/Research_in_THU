@@ -1,0 +1,104 @@
+version: '3'
+services:
+  ss-client:
+    image: teddysun/shadowsocks-libev
+    container_name: ss-client
+    ports:
+      - "1081:1080"
+    volumes:
+      - ./ss/config.json:/etc/shadowsocks-libev/config.json
+    command: [ "ss-local", "-c", "/etc/shadowsocks-libev/config.json" ]
+    networks:
+      proxy:
+        ipv4_address: 172.20.0.21
+    depends_on:
+      - ss-server
+
+  ss-server:
+    image: teddysun/shadowsocks-libev
+    container_name: ss-server
+    ports:
+      - "4001:4001"
+      - "4001:4001/udp"
+    volumes:
+      - /etc/shadowsocks-libev:/etc/shadowsocks-libev
+    networks:
+      proxy:
+        ipv4_address: 172.20.0.31
+
+  ssr-client:
+    image: ssr-client
+    container_name: ssr-client
+    ports:
+      - "1082:1080"
+    networks:
+      proxy:
+        ipv4_address: 172.20.0.22
+    depends_on:
+      - ssr-server
+
+  ssr-server:
+    image: malaohu/ssr-with-net-speeder
+    container_name: ssr-server
+    ports: 
+      - "4002:4002"
+    command: ["-s", "0.0.0.0", "-p", "4002", "-k", "123456", "-m", "rc4-md5", "-o", "http_simple", "-O", "auth_sha1_v4"]
+    networks:
+      proxy:
+        ipv4_address: 172.20.0.32
+
+  v2ray-client:
+    image: teddysun/v2ray
+    container_name: v2ray-client
+    ports:
+      - "1083:1080"
+    volumes:
+      - ./v2ray:/etc/v2ray
+    networks:
+      proxy:
+        ipv4_address: 172.20.0.23
+    depends_on:
+      - v2ray-server
+
+  v2ray-server:
+    image: teddysun/v2ray
+    container_name: v2ray-server
+    ports:
+      - "4003:4003"
+    restart: always
+    volumes:
+      - /etc/v2ray:/etc/v2ray
+    networks:
+      proxy:
+        ipv4_address: 172.20.0.33
+
+  trojan-client:
+    image: teddysun/trojan
+    container_name: trojan-client
+    ports:
+      - "1084:1080"
+    volumes:
+      - ./trojan:/etc/trojan
+    networks:
+      proxy:
+        ipv4_address: 172.20.0.24
+    depends_on:
+      - trojan-server
+    
+  trojan-server:
+    image: teddysun/trojan
+    container_name: trojan-server
+    ports:
+      - "443:443"
+    restart: always
+    volumes:
+      - /etc/trojan:/etc/trojan
+    networks:
+      proxy:
+        ipv4_address: 172.20.0.34
+        
+networks:
+  proxy:
+    ipam:
+      config:
+      - subnet: 172.20.0.0/24

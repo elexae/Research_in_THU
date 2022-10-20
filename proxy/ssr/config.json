@@ -1,0 +1,14 @@
+{
+    "server": "172.20.0.32",
+    "server_port": 4002,
+    "local_port": 1080,
+    "password": "123456",
+    "timeout": 120,
+    "method": "rc4-md5",
+    "protocol": "auth_sha1_v4",
+    "protocol_param": "",
+    "obfs": "http_simple",
+    "obfs_param": "",
+    "local_address": "0.0.0.0",
+    "fast_open": false
+}

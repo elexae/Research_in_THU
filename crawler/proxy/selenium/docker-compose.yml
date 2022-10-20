@@ -1,0 +1,27 @@
+version: "3"
+services:
+  selenium-hub:
+    image: selenium/hub:3.12.0-boron
+    container_name: selenium-hub
+    ports:
+      - "4448:4444"
+  chrome:
+    image: selenium/node-chrome:3.12.0-boron
+    depends_on:
+      - selenium-hub
+    environment:
+      - HUB_HOST=selenium-hub
+      - HUB_PORT=4444
+  firefox:
+    image: selenium/node-firefox:3.12.0-boron
+    depends_on:
+      - selenium-hub
+    environment:
+      - HUB_HOST=selenium-hub
+      - HUB_PORT=4444
+
+networks:
+  browser:
+    ipam:
+      config:
+        - subnet: 172.30.0.0/24
