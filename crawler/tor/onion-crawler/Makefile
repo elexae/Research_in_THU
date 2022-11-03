@@ -25,10 +25,10 @@ VOLUMES = \
 
 
 # network interface on which to listen
-DEVICE=ens160
+DEVICE=eth0
 
 # commandline arguments
-CRAWL_PARAMS=--start 1 --batches 1000 --sites onion_services.csv --nic ${DEVICE}
+CRAWL_PARAMS=--start 1800 --batches 800 --sites onion_services.csv --nic ${DEVICE}
 
 # Make routines
 build:

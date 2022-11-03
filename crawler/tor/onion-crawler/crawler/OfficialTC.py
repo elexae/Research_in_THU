@@ -51,9 +51,7 @@ class TorCollector:
 
         # setup TBB environment libraries
         if tbb_path:
-            tbb_path = tbb_path.rsimport pandas as pd
-df = pd.read_csv("test.txt",delimiter="\t")
-df.to_csv("test.csv", encoding='utf-8', index=False)trip('/')
+            tbb_path = tbb_path.rstrip('/')
             self.tor_binary_path = os.path.join(tbb_path, DEFAULT_TOR_BINARY_PATH)
             self.tor_data_path = os.path.join(tbb_path, DEFAULT_TOR_DATA_PATH)
         os.environ["LD_LIBRARY_PATH"] = os.path.dirname(self.tor_binary_path)
@@ -130,7 +128,7 @@ df.to_csv("test.csv", encoding='utf-8', index=False)trip('/')
             start_time = time()
 
             self.errorSites = set()
-            self.runURLS(chsize, timeout_val, outflowfolder)
+            self.runURLS(chsize, timeout_val)
             self.read_pos += chsize
 
         print(f"Total Capture Time: {time() - start_time}, {(time() - start_time) / (chsize * batch_count)} per website")
@@ -170,7 +168,7 @@ df.to_csv("test.csv", encoding='utf-8', index=False)trip('/')
         self.killTor()
         self.launchTor()
 
-    def runURL(self, url, j, timeout_val, outflowfolder):
+    def runURL(self, url, j, timeout_val):
         """ """
         url_id = f"{self.cur_batch}_{self.read_pos}_{j}_{self.total_count}"
         start_time = time()
@@ -185,7 +183,7 @@ df.to_csv("test.csv", encoding='utf-8', index=False)trip('/')
         err = False
         try:
             with time_limit(timeout_val):
-                self.browser.get("http://" + url)
+                self.browser.get('http://'+url)
                 self.browser.save_screenshot(f'{self.screens_savedir}/{url_id}.png')
 
         except TimeoutException as e:
@@ -231,7 +229,6 @@ df.to_csv("test.csv", encoding='utf-8', index=False)trip('/')
 
     def killTcpDump(self):
         self.tcpdumpProcessIn.terminate()
-        self.tcpdumpProcessOut.terminate()
         cmd = f"pkill tcpdump"
         self.runProcess(cmd.split(" "))
 

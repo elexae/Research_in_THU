@@ -1,2 +1,7 @@
 private-tor-network/
 docker/__pycache__
+crawler/tor/onion-crawler/results
+crawler/tor/onion-crawler/tor-browser_en-US
+crawler/tor/onion-crawler/geckodriver.log
+crawler/tor/onion-crawler/onion_master_list.txt
+crawler/tor/onion-crawler/txt2csv.py

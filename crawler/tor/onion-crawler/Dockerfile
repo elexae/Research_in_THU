@@ -21,19 +21,19 @@ RUN apt-get clean \
 # Install python requirements.
 RUN pip install --upgrade pip
 COPY requirements.txt /tmp/requirements.txt
-RUN pip install -r /tmp/requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+RUN pip install -r /tmp/requirements.txt
 
 # add host user to container
 RUN adduser --system --group --disabled-password --gecos '' --shell /bin/bash docker
 
 # download geckodriver
-COPY geckodriver-v0.29.0-linux64.tar.gz /bin/geckodriver-v0.29.0-linux64.tar.gz
+ADD https://github.com/mozilla/geckodriver/releases/download/v0.29.0/geckodriver-v0.29.0-linux64.tar.gz /bin/
 RUN tar -zxvf /bin/geckodriver* -C /bin/
 ENV PATH /bin/geckodriver:$PATH
 
-# download torbundle
-COPY tor-browser-linux64-11.0.15_en-US.tar.xz /home/docker/tbb_setup/
-RUN tar -xvf /home/docker/tbb_setup/tor-browser-linux64-11.0.15_en-US.tar.xz -C /home/docker/tbb_setup/
+# add setup.py
+COPY setup.py /home/docker/tbb_setup/setup.py
+RUN python3 /home/docker/tbb_setup/setup.py 10.0.10
 
 # Set the display
 ENV DISPLAY $DISPLAY
