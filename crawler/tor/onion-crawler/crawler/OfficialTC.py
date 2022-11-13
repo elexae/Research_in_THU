@@ -208,8 +208,9 @@ class TorCollector:
         self.killTcpDump()
 
         # log elapsed time
-        self.writeFile(string = f"[{url_id}] {url} visit in {timeElapsed}, full process in {time() - start_time}\n", 
-                       filename = f"{self.logs_savedir}/timeElapsed.txt")
+        if not err:
+            self.writeFile(string = f"[{url_id}] {url} visit in {timeElapsed}, full process in {time() - start_time}\n", 
+                        filename = f"{self.logs_savedir}/timeElapsed.txt")
 
     def writeFile(self, string, filename):
         with open(filename, "a") as file:
@@ -246,7 +247,10 @@ class TorCollector:
             # filter empty circuits out
             if len(circ.path) == 0:
                 continue
-            ip = controller.get_network_status(circ.path[flow][0]).address
+            try:
+                ip = controller.get_network_status(circ.path[flow][0]).address
+            except:
+                continue
             if ip not in ips:
                 ips.append(ip)
         return ips

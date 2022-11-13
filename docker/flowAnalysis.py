@@ -27,8 +27,10 @@ def pcap2flows(pcapFile, ctx):
             # 选择需要保留的包信息
             if k not in flows.keys():
                 flows[k] = []
-            flows[k].append([src, dst, len(tcp.data)])
+            flows[k].append({'timestamp':timestamp, 'src':src, 'dst':dst, 'AppLen':len(tcp.data)})
         return flows
+
+
 
 def getCircuitStatistic(circuit, ctx):
     nodePairs = getNodePairs(circuit)

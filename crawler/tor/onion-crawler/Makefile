@@ -28,7 +28,7 @@ VOLUMES = \
 DEVICE=eth0
 
 # commandline arguments
-CRAWL_PARAMS=--start 1800 --batches 800 --sites onion_services.csv --nic ${DEVICE}
+CRAWL_PARAMS=--start 3700 --batches 100 --sites onion_services.csv --nic ${DEVICE}
 
 # Make routines
 build:

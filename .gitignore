@@ -1,4 +1,5 @@
 private-tor-network/
+tgen/
 docker/__pycache__
 crawler/tor/onion-crawler/results
 crawler/tor/onion-crawler/tor-browser_en-US

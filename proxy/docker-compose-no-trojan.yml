@@ -71,31 +71,6 @@ services:
     networks:
       proxy:
         ipv4_address: 172.20.0.33
-
-  trojan-client:
-    image: teddysun/trojan
-    container_name: trojan-client
-    ports:
-      - "1084:1080"
-    volumes:
-      - ./trojan:/etc/trojan
-    networks:
-      proxy:
-        ipv4_address: 172.20.0.24
-    depends_on:
-      - trojan-server
-    
-  trojan-server:
-    image: teddysun/trojan
-    container_name: trojan-server
-    ports:
-      - "443:443"
-    restart: always
-    volumes:
-      - /etc/trojan:/etc/trojan
-    networks:
-      proxy:
-        ipv4_address: 172.20.0.34
         
 networks:
   proxy:
