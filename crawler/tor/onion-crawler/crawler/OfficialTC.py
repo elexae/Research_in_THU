@@ -107,9 +107,8 @@ class TorCollector:
         # make client directories
         self.logs_savedir = os.path.join(self.crawldir, 'logs')
         self.inflow_savedir = os.path.join(self.crawldir, 'inflow')
-        self.screens_savedir = os.path.join(self.crawldir, 'screenshots')
         try:
-            for directory in [ self.logs_savedir, self.inflow_savedir, self.screens_savedir]:
+            for directory in [ self.logs_savedir, self.inflow_savedir ]:
                 if not os.path.exists(directory):
                     os.makedirs(directory)
         except Exception:
@@ -184,7 +183,6 @@ class TorCollector:
         try:
             with time_limit(timeout_val):
                 self.browser.get('http://'+url)
-                self.browser.save_screenshot(f'{self.screens_savedir}/{url_id}.png')
 
         except TimeoutException as e:
             # site timed-out due to either length or is unavailable
